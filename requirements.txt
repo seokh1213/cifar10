@@ -1,6 +1,7 @@
 sklearn
-torch
+torch>=1.7
 torchvision
 git+https://github.com/katsura-jp/pytorch-cosine-annealing-with-warmup
 numpy
 pillow
+matplotlib

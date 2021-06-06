@@ -5,13 +5,45 @@ from cosine_annealing_warmup import \
     CosineAnnealingWarmupRestarts  # https://github.com/katsura-jp/pytorch-cosine-annealing-with-warmup
 from dataset import *
 from models import *
+import matplotlib.pyplot as plt
+
+plt.rcParams["figure.figsize"] = (15, 5)
+plt.rcParams['lines.linewidth'] = 2
+plt.rcParams['axes.grid'] = True
+
+
+def save_figure(report_dict, num_epochs, file_name):
+    fig = plt.figure()
+    epochs = list(range(num_epochs))
+    ax1 = fig.add_subplot(1, 3, 1)
+    ax2 = fig.add_subplot(1, 3, 2)
+    ax3 = fig.add_subplot(1, 3, 3)
+
+    ax1.set_xlabel('Epochs')
+    ax1.set_ylabel('Loss')
+
+    ax1.plot(epochs, report_dict['train_loss'])
+    ax1.plot(epochs, report_dict['valid_loss'])
+
+    ax2.set_xlabel('Epochs')
+    ax2.set_ylabel('Accuracy')
+
+    ax2.plot(epochs, report_dict['train_acc'])
+    ax2.plot(epochs, report_dict['valid_acc'])
+
+    ax3.set_xlabel('Epochs')
+    ax3.set_ylabel('Learning Rate')
+    ax3.plot(epochs, report_dict['lr'])
+
+    plt.savefig(file_name)
+
 
 if __name__ == '__main__':
     device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
     config = {
         'batch_size': 128,
         'base_lr': 1e-3,
-        'num_epochs': 500,
+        'num_epochs': 100,
         'valid_ratio': 0.1,
         'seed': 1213,
         'device': device
@@ -63,6 +95,8 @@ if __name__ == '__main__':
             best_loss = valid_loss
             torch.save(model.state_dict(), f'best_model.pth')
             print(f'Best Model is saved. {epoch} - {best_loss}')
+
+    save_figure(report_dict, num_epochs, file_name='result_shallow.png')
 
     if best_state is not None:
         model.load_state_dict(best_state)
