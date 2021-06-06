@@ -1,0 +1,6 @@
+sklearn
+torch
+torchvision
+git+https://github.com/katsura-jp/pytorch-cosine-annealing-with-warmup
+numpy
+pillow
