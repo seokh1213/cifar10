@@ -5,3 +5,8 @@ git+https://github.com/katsura-jp/pytorch-cosine-annealing-with-warmup
 numpy
 pillow
 matplotlib
+timm
+scikit-image
+grad-cam
+opencv-python
+ttach

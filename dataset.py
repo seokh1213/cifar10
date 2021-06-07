@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, Dataset
 import numpy as np
 from PIL import Image
+import random
 
 
 def get_transform(test=False):
@@ -52,3 +53,23 @@ def get_dataloader(batch_size, valid_ratio=0.1, seed=None):
     testloader = DataLoader(testset, batch_size=batch_size, shuffle=False)
 
     return trainloader, validloader, testloader
+
+
+def get_rotation_dataloader(batch_size):
+    dataset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transforms.ToTensor())
+    x_data = []
+    y_data = []
+    for image in dataset.data:
+        images = []
+        labels = []
+        rot = list(range(4))
+        random.shuffle(rot)
+        for i in rot:
+            images.append(np.rot90(image, i))
+            labels.append(i)
+        x_data.extend(images)
+        y_data.extend(labels)
+    trainset = CustomDataset(x_data, y_data, valid=True)
+    trainloader = DataLoader(trainset, batch_size=batch_size, shuffle=False)
+
+    return trainloader

@@ -1,0 +1,8 @@
+shallow 0.6714
+residual 0.8103
+resnet18 0.8583
+resnet50 0.8875
+residual_shallow_rotation 0.6945
+residual_residual_rotation 0.8151
+residual_resnet18_rotation 0.8422
+residual_resnet50_rotation 0.8796
